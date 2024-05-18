@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load form_tags %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Create New PC</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ form.name.label_tag }} {{ form.name|add_class:"form-control" }}
+        </div>
+        <div class="mb-3">
+            {{ form.description.label_tag }} {{ form.description|add_class:"form-control" }}
+        </div>
+        <div class="mb-3">
+            {{ form.pc_type.label_tag }} {{ form.pc_type|add_class:"form-control" }}
+        </div>
+        <div class="mb-3">
+            {{ form.cpu.label_tag }} {{ form.cpu|add_class:"form-select" }}
+        </div>
+        <div class="mb-3">
+            {{ form.gpu.label_tag }} {{ form.gpu|add_class:"form-select" }}
+        </div>
+        <div class="mb-3">
+            {{ form.ram.label_tag }} {{ form.ram|add_class:"form-select" }}
+        </div>
+        <div class="mb-3">
+            {{ form.motherboard.label_tag }} {{ form.motherboard|add_class:"form-select" }}
+        </div>
+        <div class="mb-3">
+            {{ form.psu.label_tag }} {{ form.psu|add_class:"form-select" }}
+        </div>
+        <div class="mb-3">
+            {{ form.storage.label_tag }}
+            <div class="form-check">
+                {% for checkbox in form.storage %}
+                <div class="form-check">
+                    {{ checkbox.tag|add_class:"form-check-input" }} {{ checkbox.choice_label|safe }}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="mb-3">
+            {{ form.case.label_tag }} {{ form.case|add_class:"form-select" }}
+        </div>
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+    {% if form.errors %}
+    <div class="alert alert-danger mt-3">
+        <ul>
+            {% for field, errors in form.errors.items %}
+            <li>{{ field }}: {{ errors|striptags }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

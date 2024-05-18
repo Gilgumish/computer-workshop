@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Users{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Manage Users</h1>
+    <form method="get" class="form-inline mb-3">
+        <input type="text" name="search" class="form-control mr-2" placeholder="Search by username" value="{{ search_query }}">
+        <select name="is_master" class="form-control mr-2">
+            <option value="">All</option>
+            <option value="yes" {% if master_filter == 'yes' %}selected{% endif %}>Masters</option>
+            <option value="no" {% if master_filter == 'no' %}selected{% endif %}>Clients</option>
+        </select>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Is Master</th>
+                <th>Assembled PCs</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user_info in user_data %}
+            <tr{% if user_info.user == request.user %} class="font-weight-bold"{% endif %}>
+                <td>{{ user_info.user.username }}</td>
+                <td>{{ user_info.user.email }}</td>
+                <td>{{ user_info.user.first_name }}</td>
+                <td>{{ user_info.user.last_name }}</td>
+                <td>{{ user_info.user.is_master }}</td>
+                <td>{{ user_info.assembled_pcs_count }}</td>
+                <td>
+                    <a href="{% url 'workshop:edit_user' user_info.user.id %}" class="btn btn-warning btn-sm">Edit</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

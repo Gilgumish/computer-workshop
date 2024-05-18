@@ -1,0 +1,222 @@
+[
+  {
+    "model": "workshop.computer",
+    "pk": 1,
+    "fields": {
+      "name": "Gaming Beast",
+      "description": "High-end gaming PC with powerful GPU",
+      "pc_type": "Gaming PC",
+      "master": 1,
+      "components": [1, 2, 3, 4, 5, 6, 7]
+    }
+  },
+  {
+    "model": "workshop.computer",
+    "pk": 2,
+    "fields": {
+      "name": "Workstation Pro",
+      "description": "Powerful workstation for professional use",
+      "pc_type": "Workstation",
+      "master": 1,
+      "components": [1, 3, 4, 5, 6, 7, 8]
+    }
+  },
+  {
+    "model": "workshop.computer",
+    "pk": 3,
+    "fields": {
+      "name": "Office Workhorse",
+      "description": "Reliable office PC",
+      "pc_type": "Office PC",
+      "master": 1,
+      "components": [1, 3, 4, 6, 7, 8, 9]
+    }
+  },
+  {
+    "model": "workshop.computer",
+    "pk": 4,
+    "fields": {
+      "name": "Mini PC",
+      "description": "Compact and efficient mini PC",
+      "pc_type": "Mini PC",
+      "master": 1,
+      "components": [1, 3, 4, 6, 7, 10]
+    }
+  },
+  {
+    "model": "workshop.computer",
+    "pk": 5,
+    "fields": {
+      "name": "Server Station",
+      "description": "Robust server PC",
+      "pc_type": "Server PC",
+      "master": 1,
+      "components": [1, 2, 4, 5, 6, 8, 11]
+    }
+  },
+  {
+    "model": "workshop.computer",
+    "pk": 6,
+    "fields": {
+      "name": "Media Center",
+      "description": "PC optimized for media consumption",
+      "pc_type": "Media Center PC",
+      "master": 1,
+      "components": [1, 2, 3, 4, 6, 10]
+    }
+  },
+  {
+    "model": "workshop.computer",
+    "pk": 7,
+    "fields": {
+      "name": "Budget Gamer",
+      "description": "Affordable gaming PC",
+      "pc_type": "Gaming PC",
+      "master": 1,
+      "components": [2, 3, 4, 5, 6, 7]
+    }
+  },
+  {
+    "model": "workshop.computer",
+    "pk": 8,
+    "fields": {
+      "name": "Development Rig",
+      "description": "PC for software development",
+      "pc_type": "Workstation",
+      "master": 1,
+      "components": [1, 2, 4, 5, 6, 8, 9]
+    }
+  },
+  {
+    "model": "workshop.computer",
+    "pk": 9,
+    "fields": {
+      "name": "Compact Office",
+      "description": "Space-saving office PC",
+      "pc_type": "Office PC",
+      "master": 1,
+      "components": [2, 3, 4, 6, 7, 10]
+    }
+  },
+  {
+    "model": "workshop.computer",
+    "pk": 10,
+    "fields": {
+      "name": "Gaming Monster",
+      "description": "Top-tier gaming PC with the latest components",
+      "pc_type": "Gaming PC",
+      "master": 1,
+      "components": [1, 2, 4, 5, 6, 7, 12]
+    }
+  },
+  {
+    "model": "workshop.computer",
+    "pk": 11,
+    "fields": {
+      "name": "Editing Suite",
+      "description": "PC designed for video editing",
+      "pc_type": "Workstation",
+      "master": 1,
+      "components": [1, 2, 3, 5, 6, 7, 9]
+    }
+  },
+  {
+    "model": "workshop.computer",
+    "pk": 12,
+    "fields": {
+      "name": "Home Office",
+      "description": "PC for home office setup",
+      "pc_type": "Office PC",
+      "master": 1,
+      "components": [2, 3, 4, 6, 7, 8, 10]
+    }
+  },
+  {
+    "model": "workshop.computer",
+    "pk": 13,
+    "fields": {
+      "name": "Streamer Setup",
+      "description": "PC optimized for streaming",
+      "pc_type": "Gaming PC",
+      "master": 1,
+      "components": [1, 2, 4, 5, 6, 7, 11]
+    }
+  },
+  {
+    "model": "workshop.computer",
+    "pk": 14,
+    "fields": {
+      "name": "Graphics Designer",
+      "description": "PC for graphic design and multimedia",
+      "pc_type": "Workstation",
+      "master": 1,
+      "components": [1, 2, 3, 4, 6, 7, 9]
+    }
+  },
+  {
+    "model": "workshop.computer",
+    "pk": 15,
+    "fields": {
+      "name": "Economy Build",
+      "description": "Cost-effective PC for everyday tasks",
+      "pc_type": "Office PC",
+      "master": 1,
+      "components": [2, 3, 4, 6, 7, 8, 10]
+    }
+  },
+  {
+    "model": "workshop.computer",
+    "pk": 16,
+    "fields": {
+      "name": "Power Server",
+      "description": "High-capacity server PC",
+      "pc_type": "Server PC",
+      "master": 1,
+      "components": [1, 2, 3, 5, 6, 8, 12]
+    }
+  },
+  {
+    "model": "workshop.computer",
+    "pk": 17,
+    "fields": {
+      "name": "Ultimate Media Center",
+      "description": "Advanced PC for media consumption",
+      "pc_type": "Media Center PC",
+      "master": 1,
+      "components": [1, 2, 3, 4, 6, 7, 11]
+    }
+  },
+  {
+    "model": "workshop.computer",
+    "pk": 18,
+    "fields": {
+      "name": "Silent Workhorse",
+      "description": "Quiet and efficient office PC",
+      "pc_type": "Office PC",
+      "master": 1,
+      "components": [2, 3, 4, 6, 7, 8, 9]
+    }
+  },
+  {
+    "model": "workshop.computer",
+    "pk": 19,
+    "fields": {
+      "name": "Home Server",
+      "description": "Compact home server PC",
+      "pc_type": "Server PC",
+      "master": 1,
+      "components": [1, 2, 4, 5, 6, 10]
+    }
+  },
+  {
+    "model": "workshop.computer",
+    "pk": 20,
+    "fields": {
+      "name": "Professional Studio",
+      "description": "PC for professional audio and video production",
+      "pc_type": "Workstation",
+      "master": 1,
+      "components": [1, 2, 3, 4, 5, 6, 7, 9]
+    }
+  }
+]

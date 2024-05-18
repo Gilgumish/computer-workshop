@@ -1,0 +1,76 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'workshop:home' %}" rel="tooltip" title="Computer Workshop" data-placement="bottom">
+      Computer Workshop
+    </a>
+    <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon mt-2">
+        <span class="navbar-toggler-bar bar1"></span>
+        <span class="navbar-toggler-bar bar2"></span>
+        <span class="navbar-toggler-bar bar3"></span>
+      </span>
+    </button>
+    <div class="collapse navbar-collapse w-100 pt-3 pb-2 py-lg-0 ms-lg-12 ps-lg-5" id="navigation">
+      <ul class="navbar-nav navbar-nav-hover w-100">
+        <li class="nav-item mx-2">
+          <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" href="{% url 'workshop:home' %}">
+            Home
+          </a>
+        </li>
+        <li class="nav-item mx-2">
+          <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" href="{% url 'workshop:available_computers' %}">
+            Available PC
+          </a>
+        </li>
+        <li class="nav-item mx-2">
+          <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" href="{% url 'workshop:components_list' %}">
+            Components
+          </a>
+        </li>
+        <li class="nav-item mx-2">
+          <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" href="{% url 'workshop:configurator' %}">
+            Configurator
+          </a>
+        </li>
+        {% if request.user.is_authenticated and request.user.is_master %}
+        <li class="nav-item mx-2">
+          <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" href="{% url 'workshop:manage_users' %}">
+            Manage Users
+          </a>
+        </li>
+        <li class="nav-item mx-2">
+          <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" href="{% url 'workshop:add_computer' %}">
+            Create Computer
+          </a>
+        </li>
+
+        {% endif %}
+        {% if request.user.is_authenticated %}
+        <li class="nav-item ms-lg-auto">
+          <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="nav-link nav-link-icon btn btn-link">
+              <i class="fa fa-sign-out me-1"></i>
+              <p class="d-inline text-sm z-index-1 font-bold" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Logout">Logout</p>
+            </button>
+          </form>
+        </li>
+        {% else %}
+        <li class="nav-item ms-lg-auto">
+          <a class="nav-link nav-link-icon me-2" href="{% url 'workshop:login' %}">
+            <i class="fa fa-sign-in me-1"></i>
+            <p class="d-inline text-sm z-index-1 font-bold" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Login">Login</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-link-icon me-2" href="{% url 'workshop:register' %}">
+            <i class="fa fa-user-plus me-1"></i>
+            <p class="d-inline text-sm z-index-1 font-bold" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Register">Register</p>
+          </a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>

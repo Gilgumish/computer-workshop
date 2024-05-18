@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load form_tags %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1 class="display-4">Register</h1>
+      <p class="lead">Please fill out the form to create an account.</p>
+      <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+          {{ form.username.label_tag }}
+          {{ form.username|add_class:"form-control" }}
+        </div>
+        <div class="mb-3">
+          {{ form.email.label_tag }}
+          {{ form.email|add_class:"form-control" }}
+        </div>
+        <div class="mb-3">
+          {{ form.first_name.label_tag }}
+          {{ form.first_name|add_class:"form-control" }}
+        </div>
+        <div class="mb-3">
+          {{ form.last_name.label_tag }}
+          {{ form.last_name|add_class:"form-control" }}
+        </div>
+        <div class="mb-3">
+          {{ form.password1.label_tag }}
+          {{ form.password1|add_class:"form-control" }}
+        </div>
+        <div class="mb-3">
+          {{ form.password2.label_tag }}
+          {{ form.password2|add_class:"form-control" }}
+        </div>
+        <button type="submit" class="btn btn-primary">Register</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock content %}
