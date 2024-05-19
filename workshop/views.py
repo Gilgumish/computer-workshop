@@ -99,7 +99,6 @@ def register_view(request):
         form = CustomUserCreationForm()
     return render(request, "registration/register.html", {"form": form})
 
-
 @login_required
 def configurator(request):
     if request.method == "POST":
