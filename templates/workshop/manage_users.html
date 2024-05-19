@@ -1,6 +1,5 @@
 {% extends "base.html" %}
-
-{% block title %}Manage Users{% endblock %}
+{% load static %}
 
 {% block content %}
 <div class="container mt-5">
@@ -8,11 +7,11 @@
     <form method="get" class="form-inline mb-3">
         <input type="text" name="search" class="form-control mr-2" placeholder="Search by username" value="{{ search_query }}">
         <select name="is_master" class="form-control mr-2">
-            <option value="">All</option>
+            <option value="">All users</option>
             <option value="yes" {% if master_filter == 'yes' %}selected{% endif %}>Masters</option>
             <option value="no" {% if master_filter == 'no' %}selected{% endif %}>Clients</option>
         </select>
-        <button type="submit" class="btn btn-primary">Search</button>
+        <button type="submit" class="btn btn-primary">Filter</button>
     </form>
     <table class="table">
         <thead>
@@ -22,13 +21,13 @@
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Is Master</th>
-                <th>Assembled PCs</th>
+                <th>Number of PCs Built</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            {% for user_info in user_data %}
-            <tr{% if user_info.user == request.user %} class="font-weight-bold"{% endif %}>
+            {% for user_info in page_obj %}
+            <tr {% if user_info.user == request.user %}class="font-weight-bold"{% endif %}>
                 <td>{{ user_info.user.username }}</td>
                 <td>{{ user_info.user.email }}</td>
                 <td>{{ user_info.user.first_name }}</td>
@@ -42,5 +41,28 @@
             {% endfor %}
         </tbody>
     </table>
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+            <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+            </li>
+            {% endfor %}
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
 </div>
 {% endblock %}

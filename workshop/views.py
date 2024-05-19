@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
@@ -206,11 +207,15 @@ def manage_users(request):
             assembled_pcs_count = "-"
         user_data.append({"user": user, "assembled_pcs_count": assembled_pcs_count})
 
+    paginator = Paginator(user_data, 10)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
     return render(
         request,
         "workshop/manage_users.html",
         {
-            "user_data": user_data,
+            "page_obj": page_obj,
             "search_query": search_query,
             "master_filter": master_filter,
         },
