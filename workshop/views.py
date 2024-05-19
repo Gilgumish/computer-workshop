@@ -119,7 +119,7 @@ def add_computer(request):
         form = ComputerForm(request.POST)
         if form.is_valid():
             form.save(user=request.user)
-            return redirect("workshop:home")
+            return redirect("workshop:available_computers")
     else:
         form = ComputerForm()
     return render(request, "workshop/add_computer.html", {"form": form})
@@ -292,9 +292,18 @@ def edit_computer(request, computer_id):
         form = ComputerForm(request.POST, instance=computer)
         if form.is_valid():
             form.save()
-            return redirect("workshop:home")
+            return redirect("workshop:available_computers")
     else:
-        form = ComputerForm(instance=computer)
+        # Populate the form with the initial data
+        form = ComputerForm(instance=computer, initial={
+            'cpu': computer.components.filter(type='CPU').first(),
+            'gpu': computer.components.filter(type='GPU').first(),
+            'ram': computer.components.filter(type='RAM').first(),
+            'motherboard': computer.components.filter(type='Motherboard').first(),
+            'psu': computer.components.filter(type='PSU').first(),
+            'storage': computer.components.filter(type='Storage'),
+            'case': computer.components.filter(type='Case').first(),
+        })
 
     return render(
         request, "workshop/add_computer.html", {"form": form, "object": computer}
