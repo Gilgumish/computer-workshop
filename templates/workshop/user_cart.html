@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Cart of {{ client.user.username }}</h1>
+    {% if cart.components.exists or cart.computers.exists %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Type</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for component in cart.components.all %}
+            <tr>
+                <td>{{ component.name }}</td>
+                <td>Component</td>
+                <td>${{ component.price }}</td>
+            </tr>
+            {% endfor %}
+            {% for computer in cart.computers.all %}
+            <tr>
+                <td>{{ computer.name }}</td>
+                <td>Computer</td>
+                <td>${{ computer.price }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h3>Total Price: ${{ cart.total_price }}</h3>
+    {% else %}
+    <p>The cart is empty.</p>
+    {% endif %}
+</div>
+{% endblock %}
