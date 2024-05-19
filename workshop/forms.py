@@ -5,9 +5,33 @@ from .models import Component, Computer, Master, User
 
 
 class UserForm(forms.ModelForm):
+    number_of_constructed_computers = forms.IntegerField(
+        required=False,
+        label="Number of PCs Built",
+        widget=forms.NumberInput(attrs={"class": "form-control"}),
+    )
+
     class Meta:
         model = User
         fields = ["username", "email", "first_name", "last_name"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance.is_master:
+            self.fields["number_of_constructed_computers"].initial = self.instance.master.number_of_constructed_computers
+        else:
+            self.fields.pop("number_of_constructed_computers")
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if user.is_master:
+            master, created = Master.objects.get_or_create(user=user)
+            master.number_of_constructed_computers = self.cleaned_data.get("number_of_constructed_computers", master.number_of_constructed_computers)
+            if commit:
+                master.save()
+        if commit:
+            user.save()
+        return user
 
 
 class BaseComputerForm(forms.ModelForm):
