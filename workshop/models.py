@@ -97,11 +97,17 @@ class Computer(models.Model):
 
 class Cart(models.Model):
     client = models.OneToOneField(Client, on_delete=models.CASCADE)
-    items = models.ManyToManyField(Computer)
+    components = models.ManyToManyField(Component, related_name="carts", blank=True)
+    computers = models.ManyToManyField(Computer, related_name="carts", blank=True)
+    master = models.ForeignKey(Master, on_delete=models.SET_NULL, null=True, blank=True)
+
 
     def __str__(self):
         return f"Cart of {self.client.user.username}"
 
     @property
     def total_price(self):
-        return sum(item.price for item in self.items.all())
+        component_total = sum(item.price for item in self.components.all())
+        computer_total = sum(comp.price for comp in self.computers.all())
+        return component_total + computer_total
+

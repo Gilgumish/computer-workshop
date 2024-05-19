@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Your Cart</h1>
+    {% if cart.components.exists or cart.computers.exists %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Type</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for component in cart.components.all %}
+            <tr>
+                <td>{{ component.name }}</td>
+                <td>Component</td>
+                <td>${{ component.price }}</td>
+                <td>
+                    <a href="{% url 'workshop:remove_from_cart' component.id 'component' %}" class="btn btn-danger btn-sm">Remove</a>
+                </td>
+            </tr>
+            {% endfor %}
+            {% for computer in cart.computers.all %}
+            <tr>
+                <td>{{ computer.name }}</td>
+                <td>Computer</td>
+                <td>${{ computer.price }}</td>
+                <td>
+                    <a href="{% url 'workshop:remove_from_cart' computer.id 'computer' %}" class="btn btn-danger btn-sm">Remove</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h3>Total Price: ${{ cart.total_price }}</h3>
+    {% if cart.master %}
+    <h4>Selected Master: {{ cart.master.user.first_name }} "{{ cart.master.user.username }}" {{ cart.master.user.last_name }} (PCs built: {{ cart.master.number_of_constructed_computers }})</h4>
+    <a href="{% url 'workshop:remove_master_from_cart' %}" class="btn btn-warning btn-sm">Remove Master</a>
+    {% endif %}
+    <a href="{% url 'workshop:clear_cart' %}" class="btn btn-danger btn-sm">Clear Cart</a>
+    {% else %}
+    <p>Your cart is empty.</p>
+    {% endif %}
+</div>
+{% endblock %}

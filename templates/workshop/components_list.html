@@ -30,7 +30,7 @@
                     <a href="{% url 'workshop:edit_component' component.id %}" class="btn btn-warning btn-sm">Edit</a>
                     <a href="{% url 'workshop:delete_component' component.id %}" class="btn btn-danger btn-sm">Delete</a>
                     {% endif %}
-                    <a href="{% url 'workshop:add_to_cart' component.id %}" class="btn btn-primary">Add to Cart</a>
+                    <a href="{% url 'workshop:add_component_to_cart' component.id %}" class="btn btn-primary">Add to Cart</a>
                 </div>
             </div>
         </div>

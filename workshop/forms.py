@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import Component, Computer, Master, User
+from .models import Component, Computer, Master, User, Cart
 
 
 class UserForm(forms.ModelForm):
@@ -18,7 +18,9 @@ class UserForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if self.instance.is_master:
-            self.fields["number_of_constructed_computers"].initial = self.instance.master.number_of_constructed_computers
+            self.fields["number_of_constructed_computers"].initial = (
+                self.instance.master.number_of_constructed_computers
+            )
         else:
             self.fields.pop("number_of_constructed_computers")
 
@@ -26,7 +28,10 @@ class UserForm(forms.ModelForm):
         user = super().save(commit=False)
         if user.is_master:
             master, created = Master.objects.get_or_create(user=user)
-            master.number_of_constructed_computers = self.cleaned_data.get("number_of_constructed_computers", master.number_of_constructed_computers)
+            master.number_of_constructed_computers = self.cleaned_data.get(
+                "number_of_constructed_computers",
+                master.number_of_constructed_computers,
+            )
             if commit:
                 master.save()
         if commit:
@@ -106,13 +111,6 @@ class ConfiguratorForm(BaseComputerForm):
         widget=forms.Select(attrs={"class": "form-select"}),
     )
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields["master"].queryset = Master.objects.all()
-        self.fields["master"].label_from_instance = (
-            lambda obj: f"{obj.user.first_name} '{obj.user.username}' {obj.user.last_name} (PCs Built: {obj.number_of_constructed_computers})"
-        )
-
     class Meta:
         model = Computer
         fields = [
@@ -125,6 +123,13 @@ class ConfiguratorForm(BaseComputerForm):
             "case",
             "master",
         ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["master"].queryset = Master.objects.all()
+        self.fields["master"].label_from_instance = (
+            lambda obj: f"{obj.user.first_name} '{obj.user.username}' {obj.user.last_name} (PCs Built: {obj.number_of_constructed_computers})"
+        )
 
 
 class ComputerForm(BaseComputerForm):
@@ -200,3 +205,25 @@ class CustomUserCreationForm(UserCreationForm):
             "password1",
             "password2",
         )
+
+
+class AddComponentToCartForm(forms.ModelForm):
+    quantity = forms.IntegerField(
+        min_value=1,
+        widget=forms.NumberInput(attrs={"class": "form-control", "min": "1"}),
+    )
+
+    class Meta:
+        model = Component
+        fields = ["quantity"]
+
+
+class AddComputerToCartForm(forms.ModelForm):
+    quantity = forms.IntegerField(
+        min_value=1,
+        widget=forms.NumberInput(attrs={"class": "form-control", "min": "1"}),
+    )
+
+    class Meta:
+        model = Computer
+        fields = ["quantity"]

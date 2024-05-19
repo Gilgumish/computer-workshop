@@ -32,7 +32,7 @@
                     <a href="{% url 'workshop:edit_computer' computer.id %}" class="btn btn-warning btn-sm">Edit</a>
                     <a href="{% url 'workshop:delete_computer' computer.id %}" class="btn btn-danger btn-sm">Delete</a>
                     {% endif %}
-                    <a href="{% url 'workshop:add_to_cart' computer.id %}" class="btn btn-primary">Add to Cart</a>
+                    <a href="{% url 'workshop:add_computer_to_cart' computer.id %}" class="btn btn-primary">Add to Cart</a>
                 </div>
             </div>
         </div>
