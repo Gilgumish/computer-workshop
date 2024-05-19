@@ -21,7 +21,7 @@ from .views import (
     add_component_to_cart,
     add_computer_to_cart,
     clear_cart,
-    remove_master_from_cart,
+    remove_master_from_cart, view_user_cart,
 )
 
 app_name = "workshop"
@@ -60,6 +60,7 @@ urlpatterns = [
     path("edit_user/<int:user_id>/", edit_user, name="edit_user"),
     path("computer_detail/<int:pk>/", computer_detail, name="computer_detail"),
     path("cart/", view_cart, name="cart"),
+    path('user_cart/<int:client_id>/', view_user_cart, name='view_user_cart'),
     path(
         "cart/add_component/<int:component_id>/",
         add_component_to_cart,

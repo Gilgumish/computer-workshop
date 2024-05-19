@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import Component, Computer, Master, User
+from .models import Component, Computer, Master, User, Client
 
 
 class UserForm(forms.ModelForm):
@@ -189,22 +189,21 @@ class ComponentForm(forms.ModelForm):
 
 
 class CustomUserCreationForm(UserCreationForm):
-    email = forms.EmailField(
-        required=True, help_text="Required. Inform a valid email address."
-    )
+    email = forms.EmailField(required=True, help_text="Required. Inform a valid email address.")
     first_name = forms.CharField(max_length=30, required=False, help_text="Optional.")
     last_name = forms.CharField(max_length=30, required=False, help_text="Optional.")
 
     class Meta:
         model = User
-        fields = (
-            "username",
-            "email",
-            "first_name",
-            "last_name",
-            "password1",
-            "password2",
-        )
+        fields = ("username", "email", "first_name", "last_name", "password1", "password2")
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.is_client = True
+        if commit:
+            user.save()
+            Client.objects.get_or_create(user=user)
+        return user
 
 
 class AddComponentToCartForm(forms.ModelForm):

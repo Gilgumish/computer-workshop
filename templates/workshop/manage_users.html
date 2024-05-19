@@ -1,9 +1,7 @@
 {% extends "base.html" %}
-{% load static %}
-
 {% block content %}
 <div class="container mt-5">
-    <h1 class="mb-4">Manage Users</h1>
+    <h1>Manage Users</h1>
     <form method="get" class="form-inline mb-3">
         <input type="text" name="search" class="form-control mr-2" placeholder="Search by username" value="{{ search_query }}">
         <select name="is_master" class="form-control mr-2">
@@ -11,7 +9,7 @@
             <option value="yes" {% if master_filter == 'yes' %}selected{% endif %}>Masters</option>
             <option value="no" {% if master_filter == 'no' %}selected{% endif %}>Clients</option>
         </select>
-        <button type="submit" class="btn btn-primary">Filter</button>
+        <button type="submit" class="btn btn-primary">Apply</button>
     </form>
     <table class="table">
         <thead>
@@ -20,22 +18,31 @@
                 <th>Email</th>
                 <th>First Name</th>
                 <th>Last Name</th>
-                <th>Is Master</th>
-                <th>Number of PCs Built</th>
+                <th>Role</th>
+                <th>Assembled PCs</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            {% for user_info in page_obj %}
-            <tr {% if user_info.user == request.user %}class="font-weight-bold"{% endif %}>
-                <td>{{ user_info.user.username }}</td>
-                <td>{{ user_info.user.email }}</td>
-                <td>{{ user_info.user.first_name }}</td>
-                <td>{{ user_info.user.last_name }}</td>
-                <td>{{ user_info.user.is_master }}</td>
-                <td>{{ user_info.assembled_pcs_count }}</td>
+            {% for user_data in page_obj %}
+            <tr>
+                <td>{{ user_data.user.username }}</td>
+                <td>{{ user_data.user.email }}</td>
+                <td>{{ user_data.user.first_name }}</td>
+                <td>{{ user_data.user.last_name }}</td>
                 <td>
-                    <a href="{% url 'workshop:edit_user' user_info.user.id %}" class="btn btn-warning btn-sm">Edit</a>
+                    {% if user_data.user.is_master %}
+                    Master
+                    {% else %}
+                    Client
+                    {% endif %}
+                </td>
+                <td>{{ user_data.assembled_pcs_count }}</td>
+                <td>
+                    <a href="{% url 'workshop:edit_user' user_data.user.id %}" class="btn btn-warning btn-sm">Edit</a>
+                    {% if user_data.user.is_client %}
+                    <a href="{% url 'workshop:view_user_cart' user_data.user.client.id %}" class="btn btn-info btn-sm">View Cart</a>
+                    {% endif %}
                 </td>
             </tr>
             {% endfor %}
@@ -45,20 +52,54 @@
         <ul class="pagination justify-content-center">
             {% if page_obj.has_previous %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                <a class="page-link" href="?page=1&search={{ search_query }}&is_master={{ master_filter }}" aria-label="First">
+                    <span aria-hidden="true">&laquo;&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}&search={{ search_query }}&is_master={{ master_filter }}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#" aria-label="First">
+                    <span aria-hidden="true">&laquo;&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item disabled">
+                <a class="page-link" href="#" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
             {% endif %}
             {% for num in page_obj.paginator.page_range %}
-            <li class="page-item {% if page_obj.number == num %}active{% endif %}">
-                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-            </li>
+            {% if page_obj.number == num %}
+            <li class="page-item active"><a class="page-link" href="#">{{ num }}</a></li>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <li class="page-item"><a class="page-link" href="?page={{ num }}&search={{ search_query }}&is_master={{ master_filter }}">{{ num }}</a></li>
+            {% endif %}
             {% endfor %}
             {% if page_obj.has_next %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}&search={{ search_query }}&is_master={{ master_filter }}" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}&search={{ search_query }}&is_master={{ master_filter }}" aria-label="Last">
+                    <span aria-hidden="true">&raquo;&raquo;</span>
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            <li class="page-item disabled">
+                <a class="page-link" href="#" aria-label="Last">
+                    <span aria-hidden="true">&raquo;&raquo;</span>
                 </a>
             </li>
             {% endif %}

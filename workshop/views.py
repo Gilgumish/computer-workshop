@@ -6,7 +6,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView, ListView
 
-from .models import Computer, Component, Cart, User, Master
+from .models import Computer, Component, Cart, User, Master, Client
 from .forms import (
     ComponentForm,
     ConfiguratorForm,
@@ -176,16 +176,8 @@ class AvailableComponentsView(ListView):
 
 @login_required
 def manage_users(request):
-    if not request.user.is_superuser:
+    if not request.user.is_superuser and not request.user.is_master:
         return redirect("workshop:home")
-
-    if request.method == "POST":
-        user_id = request.POST.get("user_id")
-        user = get_object_or_404(User, id=user_id)
-        form = UserForm(request.POST, instance=user)
-        if form.is_valid():
-            form.save()
-            return redirect("workshop:manage_users")
 
     search_query = request.GET.get("search", "")
     master_filter = request.GET.get("is_master", "")
@@ -222,6 +214,16 @@ def manage_users(request):
             "master_filter": master_filter,
         },
     )
+
+
+@login_required
+def view_user_cart(request, client_id):
+    if not request.user.is_master:
+        return redirect("workshop:home")
+
+    client = get_object_or_404(Client, id=client_id)
+    cart, created = Cart.objects.get_or_create(client=client)
+    return render(request, 'workshop/user_cart.html', {'cart': cart, 'client': client})
 
 
 @login_required

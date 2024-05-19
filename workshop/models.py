@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 class User(AbstractUser):
     email = models.EmailField(unique=True, blank=False)
     is_master = models.BooleanField(default=False)
-    is_client = models.BooleanField(default=False)
+    is_client = models.BooleanField(default=True)
 
     groups = models.ManyToManyField(
         "auth.Group",
@@ -25,6 +25,8 @@ class User(AbstractUser):
         if self.is_master and self.is_client:
             raise ValidationError("User cannot be both master and client.")
         super().save(*args, **kwargs)
+        if self.is_client and not hasattr(self, 'client'):
+            Client.objects.get_or_create(user=self)
 
 
 class Component(models.Model):
