@@ -25,7 +25,7 @@ class User(AbstractUser):
         if self.is_master and self.is_client:
             raise ValidationError("User cannot be both master and client.")
         super().save(*args, **kwargs)
-        if self.is_client and not hasattr(self, 'client'):
+        if self.is_client and not hasattr(self, "client"):
             Client.objects.get_or_create(user=self)
 
 
@@ -103,7 +103,6 @@ class Cart(models.Model):
     computers = models.ManyToManyField(Computer, related_name="carts", blank=True)
     master = models.ForeignKey(Master, on_delete=models.SET_NULL, null=True, blank=True)
 
-
     def __str__(self):
         return f"Cart of {self.client.user.username}"
 
@@ -112,4 +111,3 @@ class Cart(models.Model):
         component_total = sum(item.price for item in self.components.all())
         computer_total = sum(comp.price for comp in self.computers.all())
         return component_total + computer_total
-

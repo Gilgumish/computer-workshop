@@ -223,7 +223,7 @@ def view_user_cart(request, client_id):
 
     client = get_object_or_404(Client, id=client_id)
     cart, created = Cart.objects.get_or_create(client=client)
-    return render(request, 'workshop/user_cart.html', {'cart': cart, 'client': client})
+    return render(request, "workshop/user_cart.html", {"cart": cart, "client": client})
 
 
 @login_required
