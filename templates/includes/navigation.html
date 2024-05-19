@@ -44,7 +44,14 @@
             Create Computer
           </a>
         </li>
-
+        {% endif %}
+        {% if request.user.is_authenticated and not request.user.is_master %}
+        <li class="nav-item mx-2">
+          <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center" href="{% url 'workshop:cart' %}">
+            <i class="fa fa-shopping-cart me-1"></i>
+            Cart
+          </a>
+        </li>
         {% endif %}
         {% if request.user.is_authenticated %}
         <li class="nav-item ms-lg-auto">

@@ -32,7 +32,9 @@
                     <a href="{% url 'workshop:edit_computer' computer.id %}" class="btn btn-warning btn-sm">Edit</a>
                     <a href="{% url 'workshop:delete_computer' computer.id %}" class="btn btn-danger btn-sm">Delete</a>
                     {% endif %}
+                    {% if request.user.is_authenticated and not request.user.is_master %}
                     <a href="{% url 'workshop:add_computer_to_cart' computer.id %}" class="btn btn-primary">Add to Cart</a>
+                    {% endif %}
                 </div>
             </div>
         </div>

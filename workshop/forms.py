@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import Component, Computer, Master, User, Cart
+from .models import Component, Computer, Master, User
 
 
 class UserForm(forms.ModelForm):
