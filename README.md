@@ -4,6 +4,11 @@
 
 The Computer Workshop application is designed to manage and display custom-built PCs and their components. The application allows users to browse, search, filter, and sort through a collection of PCs and components. Additionally, it provides functionality for master users to create, edit, and delete PCs and components. The application also includes a configurator for custom PC builds and a homepage with statistical summaries.
 
+## DB-structure diagram
+
+![Computer Workshop DB-structure diagram](pc_workshop.png)
+
+
 ## Models
 
 ### User
@@ -41,71 +46,88 @@ The Computer Workshop application is designed to manage and display custom-built
 - `client`: One-to-one relationship with the `Client` model.
 - `items`: Many-to-many relationship with the `Computer` model.
 
-## Views
+### Application Functionality Overview
 
-### Home View
+The application provides a variety of functionalities for managing a computer workshop, including user management, component and computer management, custom PC configuration, and cart operations. Below is a description of each functionality.
 
-Displays the homepage with statistical summaries for the number of ready-built PCs, components, and masters.
+#### Home View
+- **Function**: Displays the homepage with counts of available computers, components, and masters.
 
-### Available Computers View
+#### Available Computers View
+- **Function**: Lists all available computers with pagination and sorting options (by name, type, and price). Provides search functionality.
 
-Lists all available computers with options for sorting, filtering by type, and searching by name. Includes pagination.
+#### Computer Detail View
+- **Function**: Displays detailed information about a specific computer.
 
-### Computer Detail View
+#### User Authentication Views
+- **Login**: Displays and processes the login form.
+- **Register**: Displays and processes the registration form.
 
-Displays detailed information about a specific computer.
+#### Configurator View
+- **Function**: Allows users to configure a custom PC by selecting components and a master. Adds the configured components to the user's cart.
 
-### Components List View
+#### Add Computer View
+- **Function**: Allows masters to add new computers to the system.
 
-Lists all components with options for sorting, filtering by type, and searching by name. Includes pagination.
+#### Available Components View
+- **Function**: Lists all available components with pagination and sorting options (by name, type, and price). Provides search functionality.
 
-### Configurator View
+#### Manage Users View
+- **Function**: Allows superusers and masters to manage users. Provides search and filter functionality and displays a paginated list of users.
 
-Allows users to configure a custom PC by selecting components and assigning a master.
+#### View User Cart View
+- **Function**: Allows masters to view the cart of a specific client.
 
-### Add to Cart View
+#### Component Management Views
+- **Edit Component**: Allows masters to edit existing components.
+- **Delete Component**: Allows masters to delete components.
+- **Add Component**: Allows masters to add new components to the system.
 
-Adds a computer to the client's cart.
+#### Computer Management Views
+- **Edit Computer**: Allows masters to edit existing computers.
+- **Delete Computer**: Allows masters to delete computers.
 
-### Master Dashboard View
+#### Cart Management Views
+- **Add Component to Cart**: Allows clients to add components to their cart.
+- **Add Computer to Cart**: Allows clients to add computers to their cart.
+- **View Cart**: Displays the contents of the client's cart.
+- **Remove from Cart**: Allows clients to remove items from their cart.
+- **Clear Cart**: Allows clients to clear all items from their cart.
+- **Remove Master from Cart**: Allows clients to remove the master from their cart.
 
-Allows master users to add, edit, and delete components.
+#### Edit User View
+- **Function**: Allows superusers to edit user information.
 
-### Manage Users View
+## Future Development Prospects for the Computer Workshop Application
 
-Allows master users to view and manage all users, including editing user information.
+The Computer Workshop application has a solid foundation with its current features, but there are several areas where we can expand and improve the functionality and user experience. Here are some key prospects for future development:
 
-## Templates
+#### 1. Performance Analytics Integration
+When clients configure a PC using the configurator, the system can automatically fetch and display performance data based on the selected components. This can be achieved by parsing information from various benchmarking and review websites. Key metrics could include:
+- Gaming performance (FPS in popular games)
+- Productivity benchmarks (e.g., video rendering times, software compilation times)
+- Power consumption and thermal performance
 
-### base.html
+#### 2. Enhanced User Interface and User Experience
+Improving the design and usability of the site will make it more engaging and easier to navigate. Potential enhancements include:
+- Modernizing the UI with a more visually appealing design
+- Implementing responsive design to ensure optimal performance on all devices
+- Enhancing the configurator interface with real-time feedback and visual representation of the configured PC
+- Adding drag-and-drop functionality for component selection
 
-The base template that includes the navigation bar and general structure of the website.
+#### 3. Automated Compatibility Checks
+Integrate a system that automatically checks for compatibility issues between selected components. This would help prevent configurations that won't work together, improving the user experience and reducing the likelihood of user error.
 
-### home.html
+#### 4. User Reviews and Ratings
 
-The homepage template displaying the statistical summaries.
+#### 5. Inventory Management
+Add features for managing inventory levels of components and pre-built PCs. This can include:
+- Stock level tracking
+- Automated notifications for low stock
+- Integration with suppliers for real-time stock updates
 
-### available_computers.html
-
-Template for displaying available computers with sorting, filtering, and pagination options.
-
-### computer_detail.html
-
-Template for displaying detailed information about a specific computer.
-
-### components_list.html
-
-Template for displaying components with sorting, filtering, and pagination options.
-
-### configurator.html
-
-Template for the configurator form where users can configure a custom PC.
-
-### add_component.html
-
-Template for the master dashboard where masters can add components.
-
-### manage_users.html
-
-Template for managing users, allowing masters to view and edit user information.
-
+#### 6. Advanced Search and Filter Options
+Enhance the search functionality with more advanced filters and sorting options, including:
+- Filtering by performance metrics
+- Sorting by popularity or user ratings
+- Advanced keyword search with auto-suggestions

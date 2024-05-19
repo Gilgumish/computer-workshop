@@ -17,6 +17,9 @@
         </select>
         <button type="submit" class="btn btn-primary">Apply</button>
     </form>
+    {% if request.user.is_authenticated and request.user.is_master %}
+      <a href="{% url 'workshop:add_component' %}" class="btn btn-success">Add new component</a>
+    {% endif %}
     <div class="row">
         {% for component in page_obj %}
         <div class="col-md-4">
