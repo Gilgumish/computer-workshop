@@ -4,6 +4,79 @@
 
 The Computer Workshop application is designed to manage and display custom-built PCs and their components. The application allows users to browse, search, filter, and sort through a collection of PCs and components. Additionally, it provides functionality for master users to create, edit, and delete PCs and components. The application also includes a configurator for custom PC builds and a homepage with statistical summaries.
 
+
+To add a "How to Install" section to your `README.md`, you can follow this template:
+
+---
+
+## How to Install
+
+To set up the Django project on your local machine, follow these steps:
+
+### Prerequisites
+
+- Python 3.8+
+- Django 3.2+
+- Virtualenv (recommended)
+
+### Step-by-Step Installation
+
+1. **Clone the Repository**
+
+   ```sh
+   git clone https://github.com/Gilgumish/computer-workshop
+   cd computer-workshop
+   ```
+
+2. **Install Dependencies**
+
+   ```sh
+   pip install -r requirements.txt
+   ```
+
+4. **Apply Migrations**
+
+   ```sh
+   python manage.py migrate
+   ```
+
+5. **Create a Superuser**
+
+   ```sh
+   python manage.py createsuperuser
+   ```
+
+6. **Run the Development Server**
+
+   ```sh
+   python manage.py runserver
+   ```
+
+7. **Access the Application**
+
+   Open your browser and navigate to `http://127.0.0.1:8000`.
+
+### Optional: Load Initial Data
+
+If your project includes fixtures or initial data, you can load them using:
+
+```sh
+python manage.py loaddata initial_data.json
+```
+
+### Running Tests
+
+To run the test suite:
+
+```sh
+python manage.py test
+```
+
+---
+
+This guide provides a clear and concise method to set up the project, covering all necessary steps from cloning the repository to running the development server and testing the application. Adjust any specific commands or paths as needed to fit your project's requirements.
+
+
 ## DB-structure diagram
 
 ![Computer Workshop DB-structure diagram](pc_workshop.png)
