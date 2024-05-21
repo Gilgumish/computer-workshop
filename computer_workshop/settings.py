@@ -49,6 +49,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -128,10 +129,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = '/static/'
 
-STATICFILES_DIRS = (BASE_DIR / "static",)
+# Directory for static files during development
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
+# Directory where static files will be collected
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
