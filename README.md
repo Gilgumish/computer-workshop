@@ -9,15 +9,28 @@ To add a "How to Install" section to your `README.md`, you can follow this templ
 
 ---
 
+# Site Review Data
+
+To review the site and access different functionalities, use the following credentials:
+
+## Site URL: [Computer Workshop](https://computer-workshop.onrender.com)
+
+
+### Master User
+- **Username**: `master`
+- **Password**: `112233QWEasd`
+
+### Client User
+- **Username**: `client`
+- **Password**: `112233QWEasd`
+
+This information will allow you to explore the site from different user perspectives and access various features.
+
+
 ## How to Install
 
 To set up the Django project on your local machine, follow these steps:
 
-### Prerequisites
-
-- Python 3.8+
-- Django 3.2+
-- Virtualenv (recommended)
 
 ### Step-by-Step Installation
 
@@ -61,7 +74,7 @@ To set up the Django project on your local machine, follow these steps:
 If your project includes fixtures or initial data, you can load them using:
 
 ```sh
-python manage.py loaddata initial_data.json
+python import_data.py
 ```
 
 ### Running Tests
