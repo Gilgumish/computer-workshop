@@ -203,4 +203,3 @@ Add features for managing inventory levels of components and pre-built PCs. This
 Enhance the search functionality with more advanced filters and sorting options, including:
 - Filtering by performance metrics
 - Sorting by popularity or user ratings
-- Advanced keyword search with auto-suggestions
