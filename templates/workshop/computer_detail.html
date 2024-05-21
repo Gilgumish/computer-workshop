@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">{{ computer.name }}</h1>
+    <p class="lead">{{ computer.description }}</p>
+    <p><strong>Type:</strong> {{ computer.pc_type }}</p>
+    <p><strong>Price:</strong> ${{ computer.price }}</p>
+    <h3>Components:</h3>
+    <ul>
+        {% for component in computer.components.all %}
+        <li>{{ component.name }} - ${{ component.price }}</li>
+        {% endfor %}
+    </ul>
+    <h3>Master:</h3>
+    <p>{{ computer.master.user.first_name }} "{{ computer.master.user.username }}" {{ computer.master.user.last_name }}</p>
+    <a href="{% url 'workshop:available_computers' %}" class="btn btn-primary">Back to Available Computers</a>
+</div>
+{% endblock %}

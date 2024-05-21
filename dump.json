@@ -1,0 +1,269 @@
+[
+{
+    "model": "workshop.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$720000$hrwnMXdZc3NGHnEkN69c51$fh3eCXqhDAzsr5iLVmPUFg2pSzIYrU6DkkQ1rFSveLw=",
+        "last_login": "2024-05-21T11:10:10.981Z",
+        "is_superuser": true,
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2024-05-20T16:05:57Z",
+        "email": "admin@gmail.com",
+        "is_master": true,
+        "is_client": false,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "workshop.user",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$720000$blnYLbix2V4bifVCTn6RO2$XyLZr8OSy0XF74ov82azsq6iKOhHLZjqqPpcqQd3O2c=",
+        "last_login": "2024-05-20T16:07:07.684Z",
+        "is_superuser": false,
+        "username": "client",
+        "first_name": "Cliennt",
+        "last_name": "Test",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2024-05-20T16:07:07.377Z",
+        "email": "client@gmail.com",
+        "is_master": false,
+        "is_client": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "workshop.user",
+    "pk": 3,
+    "fields": {
+        "password": "pbkdf2_sha256$720000$UbvAppnzyzoWdxg9HOVm7z$gjvcqHV/ROR/VxZniBb6h5eFQSxTQvuDkq3uVCvCe6Y=",
+        "last_login": "2024-05-21T11:10:00Z",
+        "is_superuser": false,
+        "username": "master",
+        "first_name": "Master",
+        "last_name": "Test",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2024-05-21T11:09:59Z",
+        "email": "master@gmail.com",
+        "is_master": true,
+        "is_client": false,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "workshop.component",
+    "pk": 1,
+    "fields": {
+        "name": "Intel Core i9-11900K",
+        "specifications": "8 Cores, 16 Threads, 3.5 GHz Base Clock, 5.3 GHz Boost Clock",
+        "price": "499.99",
+        "type": "CPU"
+    }
+},
+{
+    "model": "workshop.component",
+    "pk": 2,
+    "fields": {
+        "name": "AMD Ryzen 9 5900X",
+        "specifications": "12 Cores, 24 Threads, 3.7 GHz Base Clock, 4.8 GHz Boost Clock",
+        "price": "549.99",
+        "type": "CPU"
+    }
+},
+{
+    "model": "workshop.component",
+    "pk": 3,
+    "fields": {
+        "name": "NVIDIA GeForce RTX 3080",
+        "specifications": "10GB GDDR6X, 8704 CUDA Cores, 1.44 GHz Base Clock, 1.71 GHz Boost Clock",
+        "price": "699.99",
+        "type": "GPU"
+    }
+},
+{
+    "model": "workshop.component",
+    "pk": 4,
+    "fields": {
+        "name": "AMD Radeon RX 6800 XT",
+        "specifications": "16GB GDDR6, 4608 Stream Processors, 1.82 GHz Base Clock, 2.25 GHz Boost Clock",
+        "price": "649.99",
+        "type": "GPU"
+    }
+},
+{
+    "model": "workshop.component",
+    "pk": 5,
+    "fields": {
+        "name": "Corsair Vengeance LPX 16GB",
+        "specifications": "16GB (2 x 8GB), DDR4, 3200 MHz, C16",
+        "price": "79.99",
+        "type": "RAM"
+    }
+},
+{
+    "model": "workshop.component",
+    "pk": 6,
+    "fields": {
+        "name": "G.Skill Trident Z RGB 32GB",
+        "specifications": "32GB (2 x 16GB), DDR4, 3600 MHz, C18",
+        "price": "159.99",
+        "type": "RAM"
+    }
+},
+{
+    "model": "workshop.component",
+    "pk": 7,
+    "fields": {
+        "name": "ASUS ROG Strix Z590-E",
+        "specifications": "ATX, LGA 1200, DDR4, WiFi 6, PCIe 4.0",
+        "price": "379.99",
+        "type": "Motherboard"
+    }
+},
+{
+    "model": "workshop.component",
+    "pk": 8,
+    "fields": {
+        "name": "MSI MPG B550 Gaming Edge WiFi",
+        "specifications": "ATX, AM4, DDR4, WiFi 6, PCIe 4.0",
+        "price": "219.99",
+        "type": "Motherboard"
+    }
+},
+{
+    "model": "workshop.component",
+    "pk": 9,
+    "fields": {
+        "name": "EVGA SuperNOVA 850 G5",
+        "specifications": "850W, 80+ Gold, Fully Modular",
+        "price": "139.99",
+        "type": "PSU"
+    }
+},
+{
+    "model": "workshop.component",
+    "pk": 10,
+    "fields": {
+        "name": "Corsair RM750x",
+        "specifications": "750W, 80+ Gold, Fully Modular",
+        "price": "129.99",
+        "type": "PSU"
+    }
+},
+{
+    "model": "workshop.component",
+    "pk": 11,
+    "fields": {
+        "name": "Samsung 970 EVO Plus 1TB",
+        "specifications": "1TB, NVMe M.2, Up to 3500 MB/s Read, Up to 3300 MB/s Write",
+        "price": "169.99",
+        "type": "Storage"
+    }
+},
+{
+    "model": "workshop.component",
+    "pk": 12,
+    "fields": {
+        "name": "Western Digital Black 2TB",
+        "specifications": "2TB, NVMe M.2, Up to 3400 MB/s Read, Up to 2900 MB/s Write",
+        "price": "299.99",
+        "type": "Storage"
+    }
+},
+{
+    "model": "workshop.component",
+    "pk": 13,
+    "fields": {
+        "name": "NZXT H510",
+        "specifications": "Mid Tower, ATX, Tempered Glass",
+        "price": "69.99",
+        "type": "Case"
+    }
+},
+{
+    "model": "workshop.component",
+    "pk": 14,
+    "fields": {
+        "name": "Fractal Design Meshify C",
+        "specifications": "Mid Tower, ATX, Tempered Glass",
+        "price": "89.99",
+        "type": "Case"
+    }
+},
+{
+    "model": "workshop.master",
+    "pk": 1,
+    "fields": {
+        "user": 1,
+        "number_of_constructed_computers": 4
+    }
+},
+{
+    "model": "workshop.master",
+    "pk": 2,
+    "fields": {
+        "user": 3,
+        "number_of_constructed_computers": 0
+    }
+},
+{
+    "model": "workshop.client",
+    "pk": 1,
+    "fields": {
+        "user": 1
+    }
+},
+{
+    "model": "workshop.client",
+    "pk": 2,
+    "fields": {
+        "user": 2
+    }
+},
+{
+    "model": "workshop.client",
+    "pk": 3,
+    "fields": {
+        "user": 3
+    }
+},
+{
+    "model": "workshop.computer",
+    "pk": 1,
+    "fields": {
+        "name": "ULTIMATE PC",
+        "description": "Optimal PC for gaming",
+        "master": 1,
+        "pc_type": "Gaming PC",
+        "components": [
+            4,
+            2,
+            5,
+            9,
+            14,
+            8,
+            11,
+            12
+        ]
+    }
+},
+{
+    "model": "workshop.cart",
+    "pk": 1,
+    "fields": {
+        "client": 2,
+        "master": null,
+        "components": [],
+        "computers": []
+    }
+}
+]

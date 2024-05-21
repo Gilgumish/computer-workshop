@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Computer Workshop{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{% static 'css/nucleo-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'css/nucleo-svg.css' %}" rel="stylesheet">
+    <link href="{% static 'css/soft-design-system.css' %}" rel="stylesheet">
+    {% block extra_head %}{% endblock %}
+</head>
+<body {% block body_class %}{% endblock %}>
+    {% include 'includes/navigation.html' %}
+    {% block content_wrapper %}
+    <div class="container mt-4">
+        {% block content %}{% endblock %}
+    </div>
+    {% endblock %}
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    {% include 'includes/scripts.html' %}
+    {% block javascript %}{% endblock %}
+</body>
+</html>
