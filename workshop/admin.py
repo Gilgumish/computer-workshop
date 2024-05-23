@@ -1,13 +1,29 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User, Component, Master, Client, Computer, Cart
+from .models import User, Component, Computer, Cart
 
 
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
-    list_display = UserAdmin.list_display + ("email", "is_master", "is_client")
+    list_display = UserAdmin.list_display + (
+        "email",
+        "is_master",
+        "is_client",
+        "number_of_constructed_computers",
+    )
     fieldsets = UserAdmin.fieldsets + (
-        (("Additional info", {"fields": ("is_master", "is_client")}),)
+        (
+            (
+                "Additional info",
+                {
+                    "fields": (
+                        "is_master",
+                        "is_client",
+                        "number_of_constructed_computers",
+                    )
+                },
+            ),
+        )
     )
     add_fieldsets = UserAdmin.add_fieldsets + (
         (
@@ -20,6 +36,7 @@ class CustomUserAdmin(UserAdmin):
                         "email",
                         "is_master",
                         "is_client",
+                        "number_of_constructed_computers",
                     )
                 },
             ),
@@ -34,26 +51,14 @@ class ComponentAdmin(admin.ModelAdmin):
     list_filter = ("type",)
 
 
-@admin.register(Master)
-class MasterAdmin(admin.ModelAdmin):
-    list_display = ("user", "number_of_constructed_computers")
-    search_fields = ("user__username", "user__first_name", "user__last_name")
-
-
-@admin.register(Client)
-class ClientAdmin(admin.ModelAdmin):
-    list_display = ("user",)
-    search_fields = ("user__username", "user__first_name", "user__last_name")
-
-
 @admin.register(Computer)
 class ComputerWorkshopAdmin(admin.ModelAdmin):
     list_display = ("name", "master", "pc_type", "price")
     search_fields = (
         "name",
-        "master__user__username",
-        "master__user__first_name",
-        "master__user__last_name",
+        "master__username",
+        "master__first_name",
+        "master__last_name",
     )
     list_filter = ("pc_type",)
 
@@ -62,9 +67,9 @@ class ComputerWorkshopAdmin(admin.ModelAdmin):
 class CartAdmin(admin.ModelAdmin):
     list_display = ("client", "total_price")
     search_fields = (
-        "client__user__username",
-        "client__user__first_name",
-        "client__user__last_name",
+        "client__username",
+        "client__first_name",
+        "client__last_name",
     )
 
     def total_price(self, obj):

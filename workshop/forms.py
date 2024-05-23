@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-
-from .models import Component, Computer, Master, User, Client
+from .models import Component, Computer, User
 
 
 class UserForm(forms.ModelForm):
@@ -13,27 +12,28 @@ class UserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ["username", "email", "first_name", "last_name"]
+        fields = [
+            "username",
+            "email",
+            "first_name",
+            "last_name",
+            "number_of_constructed_computers",
+        ]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if self.instance.is_master:
-            self.fields["number_of_constructed_computers"].initial = (
-                self.instance.master.number_of_constructed_computers
-            )
-        else:
+        if not self.instance.is_master:
             self.fields.pop("number_of_constructed_computers")
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        if user.is_master:
-            master, created = Master.objects.get_or_create(user=user)
-            master.number_of_constructed_computers = self.cleaned_data.get(
-                "number_of_constructed_computers",
-                master.number_of_constructed_computers,
-            )
-            if commit:
-                master.save()
+        if (
+            user.is_master
+            and self.cleaned_data.get("number_of_constructed_computers") is not None
+        ):
+            user.number_of_constructed_computers = self.cleaned_data[
+                "number_of_constructed_computers"
+            ]
         if commit:
             user.save()
         return user
@@ -105,7 +105,7 @@ class BaseComputerForm(forms.ModelForm):
 
 class ConfiguratorForm(BaseComputerForm):
     master = forms.ModelChoiceField(
-        queryset=Master.objects.all(),
+        queryset=User.objects.filter(is_master=True),
         required=True,
         label="Select a Master",
         widget=forms.Select(attrs={"class": "form-select"}),
@@ -126,9 +126,9 @@ class ConfiguratorForm(BaseComputerForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["master"].queryset = Master.objects.all()
+        self.fields["master"].queryset = User.objects.filter(is_master=True)
         self.fields["master"].label_from_instance = (
-            lambda obj: f"{obj.user.first_name} '{obj.user.username}' {obj.user.last_name} (PCs Built: {obj.number_of_constructed_computers})"
+            lambda obj: f"{obj.first_name} '{obj.username}' {obj.last_name} (PCs Built: {obj.number_of_constructed_computers})"
         )
 
 
@@ -150,10 +150,10 @@ class ComputerForm(BaseComputerForm):
 
     def save(self, commit=True, user=None):
         computer = super().save(commit=False)
-        if user and hasattr(user, "master"):
-            computer.master = user.master
-            user.master.number_of_constructed_computers += 1
-            user.master.save()
+        if user and user.is_master:
+            computer.master = user
+            user.number_of_constructed_computers += 1
+            user.save()
         if commit:
             computer.save()
             computer.components.set(
@@ -211,7 +211,6 @@ class CustomUserCreationForm(UserCreationForm):
         user.is_client = True
         if commit:
             user.save()
-            Client.objects.get_or_create(user=user)
         return user
 
 

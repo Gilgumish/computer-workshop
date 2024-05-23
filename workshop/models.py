@@ -6,7 +6,10 @@ from django.core.exceptions import ValidationError
 class User(AbstractUser):
     email = models.EmailField(unique=True, blank=False)
     is_master = models.BooleanField(default=False)
-    is_client = models.BooleanField(default=True)
+    is_client = models.BooleanField(default=False)
+    number_of_constructed_computers = models.IntegerField(
+        default=0, blank=True, null=True
+    )
 
     groups = models.ManyToManyField(
         "auth.Group",
@@ -25,8 +28,6 @@ class User(AbstractUser):
         if self.is_master and self.is_client:
             raise ValidationError("User cannot be both master and client.")
         super().save(*args, **kwargs)
-        if self.is_client and not hasattr(self, "client"):
-            Client.objects.get_or_create(user=self)
 
 
 class Component(models.Model):
@@ -52,24 +53,6 @@ class Component(models.Model):
         ordering = ["name"]
 
 
-class Master(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    number_of_constructed_computers = models.IntegerField(default=0)
-
-    def __str__(self):
-        return f"{self.user.first_name} {self.user.last_name}"
-
-    class Meta:
-        ordering = ["number_of_constructed_computers"]
-
-
-class Client(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.user.first_name} {self.user.last_name}"
-
-
 class Computer(models.Model):
     PC_TYPE_CHOICES = [
         ("Gaming PC", "Gaming PC"),
@@ -83,7 +66,9 @@ class Computer(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
     components = models.ManyToManyField(Component)
-    master = models.ForeignKey(Master, on_delete=models.CASCADE)
+    master = models.ForeignKey(
+        User, on_delete=models.CASCADE, limit_choices_to={"is_master": True}
+    )
     pc_type = models.CharField(max_length=20, choices=PC_TYPE_CHOICES)
 
     @property
@@ -98,13 +83,25 @@ class Computer(models.Model):
 
 
 class Cart(models.Model):
-    client = models.OneToOneField(Client, on_delete=models.CASCADE)
+    client = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        limit_choices_to={"is_client": True},
+        related_name="client_cart",
+    )
     components = models.ManyToManyField(Component, related_name="carts", blank=True)
     computers = models.ManyToManyField(Computer, related_name="carts", blank=True)
-    master = models.ForeignKey(Master, on_delete=models.SET_NULL, null=True, blank=True)
+    master = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        limit_choices_to={"is_master": True},
+        related_name="master_carts",
+    )
 
     def __str__(self):
-        return f"Cart of {self.client.user.username}"
+        return f"Cart of {self.client.username}"
 
     @property
     def total_price(self):

@@ -41,7 +41,7 @@
                 <td>
                     <a href="{% url 'workshop:edit_user' user_data.user.id %}" class="btn btn-warning btn-sm">Edit</a>
                     {% if user_data.user.is_client %}
-                    <a href="{% url 'workshop:view_user_cart' user_data.user.client.id %}" class="btn btn-info btn-sm">View Cart</a>
+                      <a href="{% url 'workshop:view_user_cart' user_data.user.id %}" class="btn btn-info btn-sm">View Cart</a>
                     {% endif %}
                 </td>
             </tr>
