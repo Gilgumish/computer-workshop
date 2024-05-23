@@ -61,7 +61,7 @@ urlpatterns = [
     path("edit_user/<int:user_id>/", edit_user, name="edit_user"),
     path("computer_detail/<int:pk>/", computer_detail, name="computer_detail"),
     path("cart/", view_cart, name="cart"),
-    path("user_cart/<int:client_id>/", view_user_cart, name="view_user_cart"),
+    path("user_cart/<int:user_id>/", view_user_cart, name="view_user_cart"),
     path(
         "cart/add_component/<int:component_id>/",
         add_component_to_cart,

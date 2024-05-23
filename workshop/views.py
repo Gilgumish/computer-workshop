@@ -6,7 +6,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView, ListView
 
-from .models import Computer, Component, Cart, User, Master, Client
+from .models import Computer, Component, Cart, User
 from .forms import (
     ComponentForm,
     ConfiguratorForm,
@@ -21,7 +21,7 @@ from .forms import (
 def home(request):
     num_computers = Computer.objects.count()
     num_components = Component.objects.count()
-    num_masters = Master.objects.count()
+    num_masters = User.objects.filter(is_master=True).count()
 
     return render(
         request,
@@ -99,12 +99,13 @@ def register_view(request):
         form = CustomUserCreationForm()
     return render(request, "registration/register.html", {"form": form})
 
+
 @login_required
 def configurator(request):
     if request.method == "POST":
         form = ConfiguratorForm(request.POST)
         if form.is_valid():
-            cart, created = Cart.objects.get_or_create(client=request.user.client)
+            cart, created = Cart.objects.get_or_create(client=request.user)
             cart.components.add(form.cleaned_data["cpu"])
             cart.components.add(form.cleaned_data["gpu"])
             cart.components.add(form.cleaned_data["ram"])
@@ -174,6 +175,19 @@ class AvailableComponentsView(ListView):
 
 
 @login_required
+def view_user_cart(request, user_id):
+    if not request.user.is_master:
+        return redirect("workshop:home")
+
+    user = get_object_or_404(User, id=user_id)
+    if not user.is_client:
+        return redirect("workshop:home")
+
+    cart, created = Cart.objects.get_or_create(client=user)
+    return render(request, "workshop/user_cart.html", {"cart": cart, "client": user})
+
+
+@login_required
 def manage_users(request):
     if not request.user.is_superuser and not request.user.is_master:
         return redirect("workshop:home")
@@ -194,10 +208,9 @@ def manage_users(request):
 
     user_data = []
     for user in users:
-        if user.is_master:
-            assembled_pcs_count = Computer.objects.filter(master=user.master).count()
-        else:
-            assembled_pcs_count = "-"
+        assembled_pcs_count = (
+            user.number_of_constructed_computers if user.is_master else "-"
+        )
         user_data.append({"user": user, "assembled_pcs_count": assembled_pcs_count})
 
     paginator = Paginator(user_data, 10)
@@ -213,16 +226,6 @@ def manage_users(request):
             "master_filter": master_filter,
         },
     )
-
-
-@login_required
-def view_user_cart(request, client_id):
-    if not request.user.is_master:
-        return redirect("workshop:home")
-
-    client = get_object_or_404(Client, id=client_id)
-    cart, created = Cart.objects.get_or_create(client=client)
-    return render(request, "workshop/user_cart.html", {"cart": cart, "client": client})
 
 
 @login_required
@@ -302,7 +305,6 @@ def edit_computer(request, computer_id):
             form.save()
             return redirect("workshop:available_computers")
     else:
-        # Populate the form with the initial data
         form = ComputerForm(
             instance=computer,
             initial={
@@ -336,56 +338,33 @@ class ComponentDeleteView(DeleteView):
 @login_required
 def add_component_to_cart(request, component_id):
     component = get_object_or_404(Component, id=component_id)
-    cart, created = Cart.objects.get_or_create(client=request.user.client)
+    cart, created = Cart.objects.get_or_create(client=request.user)
 
-    if request.method == "POST":
-        form = AddComponentToCartForm(request.POST)
-        if form.is_valid():
-            quantity = form.cleaned_data["quantity"]
-            for _ in range(quantity):
-                cart.components.add(component)
-            return redirect("workshop:cart")
-    else:
-        form = AddComponentToCartForm()
-
-    return render(
-        request,
-        "workshop/add_to_cart.html",
-        {"form": form, "item": component, "item_type": "component"},
-    )
+    cart.components.add(component)
+    return redirect("workshop:cart")
 
 
 @login_required
 def add_computer_to_cart(request, computer_id):
     computer = get_object_or_404(Computer, id=computer_id)
-    cart, created = Cart.objects.get_or_create(client=request.user.client)
+    cart, created = Cart.objects.get_or_create(client=request.user)
 
-    if request.method == "POST":
-        form = AddComputerToCartForm(request.POST)
-        if form.is_valid():
-            quantity = form.cleaned_data["quantity"]
-            for _ in range(quantity):
-                cart.computers.add(computer)
-            return redirect("workshop:cart")
-    else:
-        form = AddComputerToCartForm()
-
-    return render(
-        request,
-        "workshop/add_to_cart.html",
-        {"form": form, "item": computer, "item_type": "computer"},
-    )
+    cart.computers.add(computer)
+    return redirect("workshop:cart")
 
 
 @login_required
 def view_cart(request):
-    cart, created = Cart.objects.get_or_create(client=request.user.client)
+    if not request.user.is_client:
+        return redirect("workshop:home")
+
+    cart, created = Cart.objects.get_or_create(client=request.user)
     return render(request, "workshop/cart.html", {"cart": cart})
 
 
 @login_required
 def remove_from_cart(request, item_id, item_type):
-    cart = get_object_or_404(Cart, client=request.user.client)
+    cart, created = Cart.objects.get_or_create(client=request.user)
     if item_type == "component":
         item = get_object_or_404(Component, id=item_id)
         cart.components.remove(item)
@@ -397,7 +376,7 @@ def remove_from_cart(request, item_id, item_type):
 
 @login_required
 def clear_cart(request):
-    cart, created = Cart.objects.get_or_create(client=request.user.client)
+    cart, created = Cart.objects.get_or_create(client=request.user)
     cart.components.clear()
     cart.computers.clear()
     cart.master = None
@@ -407,7 +386,7 @@ def clear_cart(request):
 
 @login_required
 def remove_master_from_cart(request):
-    cart, created = Cart.objects.get_or_create(client=request.user.client)
+    cart, created = Cart.objects.get_or_create(client=request.user)
     cart.master = None
     cart.save()
     return redirect("workshop:cart")
